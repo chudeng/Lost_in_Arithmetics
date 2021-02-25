@@ -85,6 +85,12 @@ class userInforSet:
                 self.userLogin()
             elif self.ID == 0:
                 self.userListManage()
+            elif self.ID <0:
+                self.userSelection()
+            elif self.ID >10:
+                self.userSelection()
+            else
+                return self.ID
 
 
     #사용자 정보 관리(확인 및 삭제)

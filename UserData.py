@@ -25,16 +25,23 @@ class UserData:
 
 
     # 변경된 유저 정보를 저장
-    def userUpdate(self, num, ID, level, score):
-        userscored = [ID, level, score]
+    def userWrite(self, num, ID, level, score):
+        userUpdate = [ID, level, score]
         for line in self.userData:
             if self.userData[line] == num - 1:
                 for column in self.userData:
-                    self.userData[line][column] = userscored[column]
+                    self.userData[line][column] = userUpdate[column]
         self.userdataFileUpdate()
 
 
-
+    # 유저 정보 읽어오기
+        def userLoad(self, num):
+            userLoaded = [ID, level, score]
+            for line in self.userData:
+                if self.userData[line] == num - 1:
+                    for column in self.userData:
+                        self.userData[line][column] = userLoaded[column]
+            return userLoaded
 
 
 
