@@ -8,16 +8,14 @@ class userInforSet:
 
     # 게임 첫 실행시 10개 유저정보 공간 생성
     def userListCreation(self):
-        # 유저 정보를 저장할 파일(userdata.txt) 생성
-        SavedUserFile = open('userdata.txt', 'w')
-        userList = [["Empty", "Empty", "Empty"] for i in range(10)]
+        userList = [['Empty' for j in range(3)] for i in range(10)]
+        # 유저 정보를 저장할 파일(userdata.dat) 생성
+        with open('userdata.dat', 'w') as SavedUserFile:
+            for line in userList:
+                for column in userList:
+                    SavedUserFile.write(userList[line][column])
+                SavedUserFile.write('\n')
         self.userInitialization = 1
-        for line in userList:
-            for column in self.userList:
-                SavedUserFile.write(userList[line][column])
-            SavedUserFile.close()
-            SavedUserFile.write('\n')
-        SavedUserFile.close()
 
 
 
