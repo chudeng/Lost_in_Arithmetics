@@ -9,24 +9,11 @@ class UserData:
         self.ID = ID
         self.level = level
         self.score = score
-    UDWrite = open('userdata.txt', 'w')
-
-
-    # 유저 데이터 정보를 보관할 파일 생성
-    def userdataFileUpdate(self):
-        self.userData = ULC.userList
-        for line in range(10):
-            self.UDWrite.write((line + 1) + '. ')
-            for column in range(2):
-                self.UDWrite.write(self.userData[line][column] + '   ')
-            self.UDWrite.close()
-            self.UDWrite.write("\n")
-        self.UDWrite.close()
 
 
     # 변경된 유저 정보를 저장
-    def userWrite(self, num, ID, level, score):
-        userUpdate = [ID, level, score]
+    def userUpdate(self, num, ID, level, score):
+        self.userData = [ID, level, score]
         for line in self.userData:
             if self.userData[line] == num - 1:
                 for column in self.userData:
@@ -35,13 +22,13 @@ class UserData:
 
 
     # 유저 정보 읽어오기
-        def userLoad(self, num):
-            userLoaded = [ID, level, score]
-            for line in self.userData:
-                if self.userData[line] == num - 1:
-                    for column in self.userData:
-                        self.userData[line][column] = userLoaded[column]
-            return userLoaded
+    def userLoad(self, num):
+        userLoaded = [ID, level, score]
+        for line in self.userData:
+            if self.userData[line] == num - 1:
+                for column in self.userData:
+                    self.userData[line][column] = userLoaded[column]
+        return userLoaded
 
 
 
