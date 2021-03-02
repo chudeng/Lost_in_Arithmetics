@@ -1,6 +1,6 @@
 from User import userInforSet as UIM    #
-from UserData import UserData as UD     # UserData.py 의 Userdate import
-import Game
+from UserData import UserData as UD     # UserData.py 의 Userdate impor
+
 
 # UserList 생성.
 # 모듈 첫 수행시에만 수행

@@ -1,22 +1,11 @@
+from UserData import UserData as UD
+
 class userInforSet:
 
-    def __init__(self, userInitialization, Level, Score):
-        self.userInitialization = userInitialization
+    def __init__(self, userDic, Level, Score):
+        self.userDic = userDic
         self.Level = Level
         self.Score = Score
-
-
-    # 게임 첫 실행시 10개 유저정보 공간 생성
-    def userListCreation(self):
-        userList = [['Empty' for j in range(3)] for i in range(10)]
-        # 유저 정보를 저장할 파일(userdata.dat) 생성
-        with open('userdata.dat', 'w') as SavedUserFile:
-            for line in userList:
-                for column in userList:
-                    SavedUserFile.write(userList[line][column])
-                SavedUserFile.write('\n')
-        self.userInitialization = 1
-
 
 
     # 초기 로그인 화면
@@ -29,23 +18,40 @@ class userInforSet:
             select = int(input("Select number:"))
             if select == 1 or 2 or 3:
                 return (select)
-                break
             else:
                 continue
 
 
     # 새로운 사용자 생성 매서드
     def userCreation(self):
-        # 새로운 사용자를 추가 할 수 있는지 확인
-        # 추가 가능시 emptyID에 슬롯 위치를 저장
-        emptyID = 0
-        for emptyID  in range(10):
-            if self.userList[emptyID][0] == "Empty":
-                break
+        # userdata.dat 내용을 dict type으로 load
+        self.userDic = UD.userLoad()
+        # 새롭게 생성할 ID type(1자 이상 8자 이하)
+        inputID = input('Please input ID(Max 8 lettes): ')
+        while True:
+            if len(inputID) > 8:
+                inputID = input("Please input ID(Max 8 letters)")
+                continue
+            elif len(inputID) == 0:
+                inputID = input("Please input ID(Max 8 letters)")
+                continue
             else:
-                if emptyID == 9:
-                    print("No empty user slot. Check existing user list.")
-                    self.userListManage()
+                # 생성요청 ID가 겹치는게 있으면(if true) 다시 입력, 없으면(else) userDic에 key(생성 ID)와 value([0, 0]배열) 추
+                emptyID = inputID in self.userDic
+                if emptyID == True:
+                    print("The ID already used.")
+                    continue
+                else:
+                    # 생성요청한 ID 최종 확인
+                    # 'if ture'이면 self.userDic에 추가 후 UD.userWrite()로 userdata.dat file 에 업데이트
+                    while True:
+                        confirmation = input(f"{inputID} confirm?(y/n)")
+                        if confirmation == "y" or "Y":
+                            self.userDic
+                            break
+                        elif confirmation == "n" or "N":
+                            self.userCreation()
+                            break
 
         # emptyID 슬롯에 ID 저장 및 기존 ID와 중복여부 검사
         TypedID = input("Input your ID(Max 8 letters): ")
@@ -90,7 +96,7 @@ class userInforSet:
                 self.userSelection()
             elif self.ID >10:
                 self.userSelection()
-            else
+            else:
                 return self.ID
 
 
