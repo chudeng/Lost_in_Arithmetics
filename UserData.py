@@ -1,14 +1,15 @@
 class UserData:
 
-    def __init__(self, userData):
+    def __init__(self, userData, userDic):
         self.userData = userData
+        self.userDic = userDic
 
     # 유저 정보 저장
     # 실행때마다 정보를 덮어 씌움
     # 넘겨받은 userDic 정보를 "userdata.dat(self.UDW)" file 에 print.
-    def userWrite(self, userDic):
+    def userWrite(self):
         with open('userdata.dat', 'w') as UDW:
-            print(userDic, file = UDW)
+            print(self.userDic, file = UDW)
 
 
     # 유저 정보 읽어오기

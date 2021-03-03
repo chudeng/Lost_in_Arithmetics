@@ -27,12 +27,12 @@ class userInforSet:
         # userdata.dat 내용을 dict type으로 load
         self.userDic = UD.userLoad()
         # 새롭게 생성할 ID type(1자 이상 8자 이하)
-        inputID = input('Please input ID(Max 8 lettes): ')
+        inputID = input('Please input ID(Max 8 letters): ')
         while True:
             if len(inputID) > 8:
                 inputID = input("Please input ID(Max 8 letters)")
                 continue
-            elif len(inputID) == 0:
+            elif len(inputID) <= 0:
                 inputID = input("Please input ID(Max 8 letters)")
                 continue
             else:
@@ -47,64 +47,43 @@ class userInforSet:
                     while True:
                         confirmation = input(f"{inputID} confirm?(y/n)")
                         if confirmation == "y" or "Y":
-                            self.userDic
+                            self.userDic.setdefault(inputID, [0,0])
+                            UD.userWrite(self.userDic)
                             break
                         elif confirmation == "n" or "N":
                             self.userCreation()
                             break
-
-        # emptyID 슬롯에 ID 저장 및 기존 ID와 중복여부 검사
-        TypedID = input("Input your ID(Max 8 letters): ")
-        while True:
-            if len(TypedID) > 8:
-                TypedID = input("Please input ID(Max 8 letters)")
-                continue
-            elif len(TypedID) == 0:
-                TypedID = input("Please input ID(Max 8 letters)")
-                continue
-            else:
-                break
-
-        for i in range(10):
-            if TypedID == self.userList[i][0]:
-                TypedID = input("Already used ID. Input your ID(Max 8 letters): ")
-            else:
-                if i == 9:
-                    while True:
-                        confirmationID = input(f"{TypedID} confirm?(y/n)")
-                        if confirmationID == "y" or "Y":
-                            self.userList[emptyID][0] = TypedID
-                            break
-                        elif confirmationID == "n" or "N":
-                            self.userCreation()
-
 
 
     # 사용자 정보 확인
     # 기존 사용자이면, 해당 정보 로드
     # 새로운 사용자이면, 사용자생성(userCreation) 매서드 호출
     def userSelection(self):
-        for i in range(10):
-            print(f"{i + 1} ':' {self.userList[i]}\n")
+        self.userDic = UD.userLoad()
         while True:
-            self.ID = input("Please input ID number(Back[-1], ID manage[0]): ")
-            if self.ID == -1:
-                self.userLogin()
-            elif self.ID == 0:
-                self.userListManage()
-            elif self.ID <0:
-                self.userSelection()
-            elif self.ID >10:
-                self.userSelection()
-            else:
-                return self.ID
+            for index, (key, value) in enumerate(self.userDic.items()):
+                print(f"ID: {key}, Level & Score: {value}\n")
+                keyList = list(self.userDic.keys())
+                inputID = input("Please input ID(Back[-1], ID manage[0]): ")
+                if inputID == -1:
+                    self.userLogin()
+                elif self.ID == 0:
+                    self.userListManage()
+                else:
+                    for i in keyList:
+                        if i == self.ID:
+                            return (self.ID, self.userDic.get(self.ID))
+                        else:
+                            print("Please input right ID")
+                            continue
 
 
     #사용자 정보 관리(확인 및 삭제)
     def userListManage(self):
-        for i in range(10):
-            print(f"{i+1} ':' self.userList[i]\n")
-        userNumber = int(input("Please input ID number to be deleted(Quit: 0):"))
+        self.userDic = UD.userLoad()
+        for index, (key, value) in enumerate(self.userDic()):
+            print(f"ID: {key}, Level&Score: {value}\n")
+        self.ID = input("Please input ID to be deleted(Quit: 0):"))
         if userNumber > 10:
             print('Please input ID number between 1 ~ 10')
             self.userListManage()
