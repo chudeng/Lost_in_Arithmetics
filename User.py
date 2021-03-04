@@ -11,8 +11,6 @@ class userInforSet:
     # 초기 로그인 화면
     # 유저리스트와 선택 옵션
     def userLogin(self):
-        for i in range(10):
-            print(f"{i+1} ':' self.userList[i]\n")
         print("1. New Game\n2. Load Game\n3. User Manager\n")
         while True:
             select = int(input("Select number:"))
@@ -25,7 +23,7 @@ class userInforSet:
     # 새로운 사용자 생성 매서드
     def userCreation(self):
         # userdata.dat 내용을 dict type으로 load
-        self.userDic = UD.userLoad()
+        self.userDic = UD.userLoad(None)
         # 새롭게 생성할 ID type(1자 이상 8자 이하)
         inputID = input('Please input ID(Max 8 letters): ')
         while True:
@@ -63,15 +61,15 @@ class userInforSet:
         while True:
             for index, (key, value) in enumerate(self.userDic.items()):
                 print(f"ID: {key}, Level & Score: {value}\n")
-                keyList = list(self.userDic.keys())
-                inputID = input("Please input ID(Back[-1], ID manage[0]): ")
-                if inputID == -1:
+                key_List = list(self.userDic.keys())
+                self.ID = input("Please input ID(Back[-1], ID manage[0]): ")
+                if self.ID == -1:
                     self.userLogin()
                 elif self.ID == 0:
                     self.userListManage()
                 else:
-                    for i in keyList:
-                        if i == self.ID:
+                    for i in key_List:
+                        if self.ID == i:
                             return (self.ID, self.userDic.get(self.ID))
                         else:
                             print("Please input right ID")
@@ -81,32 +79,21 @@ class userInforSet:
     #사용자 정보 관리(확인 및 삭제)
     def userListManage(self):
         self.userDic = UD.userLoad()
+        key_List = list(self.userDic.keys())
         for index, (key, value) in enumerate(self.userDic()):
-            print(f"ID: {key}, Level&Score: {value}\n")
-        self.ID = input("Please input ID to be deleted(Quit: 0):"))
-        if userNumber > 10:
-            print('Please input ID number between 1 ~ 10')
-            self.userListManage()
-        elif userNumber < 0:
-            print('Please input ID number between 1 ~ 10')
-            self.userListManage()
-        elif userNumber == 0:
-            self.userLogin()
-        else:
-            while True:
-                inputID = input(f'{userNumber} will be deleted Y/N:')
-                if inputID == 'Y' or 'y':
-                    for i in range(3):
-                        self.userList.insert(self, inputID[userNumber - 1][i], 'Empty')
-                    print(f'{inputID} has been deleted')
-                    self.userListManage()
-                elif inputID == 'N' or 'n':
-                    self.userListManage()
-
-
-
-
-
+            print(f"ID: {key}\tLevel: {value[0]}\tScore: {value[1]}\n")
+        while True:
+            self.ID = input("Please input ID to be deleted(Quit: 0):")
+            if self.ID == 0:
+                UD.userWrite(self.userDic)
+                self.userLogin()
+            elif self.ID in key_List:
+                del self.userDic[self.ID]
+                print(f'{self.ID} has successfully deleted.')
+                continue
+            else:
+                print(f'{self.ID} does not exist. Please input right ID.')
+                continue
 
 
 

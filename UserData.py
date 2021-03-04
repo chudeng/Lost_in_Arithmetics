@@ -1,7 +1,6 @@
 class UserData:
 
-    def __init__(self, userData, userDic):
-        self.userData = userData
+    def __init__(self, userDic):
         self.userDic = userDic
 
     # 유저 정보 저장
@@ -16,8 +15,8 @@ class UserData:
     def userLoad(self):
         with open('userdata.dat', 'r') as UDR:
             # eval을 통해 "userdata.dat(self.UDW)" file 을 읽어올때 'dict' type 으로 읽어옴.
-            self.userData = eval(UDR.read())
-            return (self.userData)
+            self.userDic = eval(UDR.read())
+            return (self.userDic)
 
 
 
