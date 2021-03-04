@@ -1,29 +1,25 @@
 from UserData import UserData as UD
 
 class userInforSet:
-
-    def __init__(self, userDic, Level, Score):
-        self.userDic = userDic
-        self.Level = Level
-        self.Score = Score
+    userDic = []
+    def userCreation(self):
 
 
     # 초기 로그인 화면
     # 유저리스트와 선택 옵션
-    def userLogin(self):
-        print("1. New Game\n2. Load Game\n3. User Manager\n")
-        while True:
-            select = int(input("Select number:"))
-            if select == 1 or 2 or 3:
-                return (select)
-            else:
-                continue
+    def userLogin(selection):
+        if selection == 1 :
+
+            or 2 or 3:
+            return (select)
+        else:
+            continue
 
 
     # 새로운 사용자 생성 매서드
     def userCreation(self):
         # userdata.dat 내용을 dict type으로 load
-        self.userDic = UD.userLoad(None)
+        self.userDic = UD.userLoad(self.userDic)
         # 새롭게 생성할 ID type(1자 이상 8자 이하)
         inputID = input('Please input ID(Max 8 letters): ')
         while True:
