@@ -6,9 +6,9 @@ class UserData:
     # 유저 정보 저장
     # 실행때마다 정보를 덮어 씌움
     # 넘겨받은 userDic 정보를 "userdata.dat(self.UDW)" file 에 print.
-    def userWrite(self):
+    def userWrite(self, userDic):
         with open('userdata.dat', 'w') as UDW:
-            print(self.userDic, file = UDW)
+            print(userDic, file = UDW)
 
 
     # 유저 정보 읽어오기
