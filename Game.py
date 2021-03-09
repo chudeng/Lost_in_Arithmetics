@@ -1,20 +1,18 @@
 from random import *
-from User import userInforSet as UIM
 
 class game:
-    def __init__(self, ID, LEVEL, SCORE):
-        self.ID = ID
-        self.LEVEL = LEVEL
-        self.SCORE = SCORE
-        self.Operators = ['+', '-', '*', '/']
+    def __init__(self, ID, score):
+        self._ID = ID
+        self._score = score
+        print(self._ID, self._score)
 
+    def stage(self, ID, score):
+        pass
 
-    def stageScore(self):
-
-
-
-    def stage01(self):
+    def stage01(self, ID, score):
         # 문제(1~9 사이) 추출 및 출력
+        print(f'여기까지 잘 왔어~{ID}, {score}')
+        '''
         ST01_Q = []
         for i in (1, 10):
             ST01_Q.append(i+1)
@@ -47,7 +45,8 @@ class game:
                 return(1)
                 break
             elif (userPick1 or userPick2 or userPick3) == -1:
-                UIM.userLogin()
+                pass
+                '''
 
 
 
