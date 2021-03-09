@@ -24,7 +24,7 @@ while True:
     elif gamemode == 2:
         gameMenu.userSelection()
         break
-    elif gamemode ==3:
+    elif gamemode == 3:
         gameMenu.userLogin(gamemode)
         continue
     else:
