@@ -73,15 +73,13 @@ class userInforSet:
             ID = input("Please input ID(Back[-1], ID manage[0]): ")
             # -1: 초기화면, 0: 유저관리, others: 선택한 유저로 시작
             if ID.lower() == '-1':
-                break
+                return '-1'
             elif ID == '0':
                 self.userListManage()
             else:
                 for i in key_List:
                     if ID.lower() == i.lower():
-                        # 선택된 ID와 그 정보에 따라 레벨에 맞는 게임 호출
-                        game = G(ID, userDic[ID])
-                        return
+                        return ID, userDic[ID]
                     else:
                         print("Please input right ID")
                         continue

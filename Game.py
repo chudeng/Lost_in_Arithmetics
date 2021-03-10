@@ -1,26 +1,94 @@
 from random import *
 
 class game:
-    def __init__(self, ID, score):
-        self._ID = ID
-        self._score = score
-        print(self._ID, self._score)
+    def __init__(self, loadedID):
+        self._loadedID = loadedID
 
-    def stage(self, ID, score):
-        pass
+    def stage(self):
+        if self._loadedID[1][0] == 1:
+            self.stage01()
+        elif self._loadedID[1][0] == 2:
+            self.stage02()
+        elif self._loadedID[1][0] == 3:
+            self.stage03()
+        elif self._loadedID[1][0] == 4:
+            self.stage04()
+        elif self._loadedID[1][0] == 5:
+            self.stage05()
+        elif self._loadedID[1][0] == 6:
+            self.stage06()
+        elif self._loadedID[1][0] == 7:
+            self.stage07()
+        elif self._loadedID[1][0] == 8:
+            self.stage08()
+        elif self._loadedID[1][0] == 9:
+            self.stage09()
 
-    def stage01(self, ID, score):
+    # infix 를 postfix로 변환
+    def intopost(self, answer):
+        postfix = []
+        stk = []
+        for i in range(len(answer)):
+            if answer[i].isdigit():
+                postfix.append(answer[i])
+            elif not answer[i].isdigit():
+                if answer[i] == '(':
+                        stk.append(answer[i])
+                elif answer[i] == '*' or answer[i] == '/':
+                    if len(stk) == 0:
+                        stk.append(answer[i])
+                    elif stk[-1] == '+' or stk[-1] == '-':
+                        stk.append(answer[i])
+                    elif stk[-1] == '*' or stk[-1] == '/':
+                        postfix.append(stk.pop(-1))
+                        stk.append(answer[i])
+                elif answer[i] == '+' or answer[i] == '-':
+                    if len(stk) == 0:
+                        stk.append(answer[i])
+                    elif stk[-1] == '+' or stk[-1] == '-':
+                        stk.append(answer[i])
+                    else:
+                        stk.append(answer[i])
+                elif answer[i] == ')':
+                    while stk:
+                        if stk[-1] == '(':
+                            stk.pop(-1)
+                            break
+                        else:
+                            postfix.append(stk.pop(-1))
+                            continue
+        while stk:
+            postfix.append(stk.pop(-1))
+        self.operating(postfix)
+
+    # postfix를 받아 계산 후, 결과값은 반환
+    def operating(self, postfix):
+        stk = []
+        for i in postfix:
+            if i.isdigit():
+                stk.append(i)
+            else:
+                if i == '+':
+                    stk = stk.pop(-1) + stk.pop(-1)
+                elif i == '-':
+                    stk = stk.pop(-1) - stk.pop(-1)
+                elif i == '*':
+                    stk = stk.pop(-1) * stk.pop(-1)
+                elif i == '/':
+                    stk = stk.pop(-1) / stk.pop(-1)
+        return int(stk)
+
+
+    def stage01(self):
         # 문제(1~9 사이) 추출 및 출력
-        print(f'여기까지 잘 왔어~{ID}, {score}')
-        '''
-        ST01_Q = []
+        ST01_list = []
         for i in (1, 10):
-            ST01_Q.append(i+1)
-        Question = random.choice(ST01_Q)
+            ST01_list.append(i+1)
+        Question = random.choice(ST01_list)
         print("Question: ", Question)
 
         # 숫자 선택지 추출
-        ST01_NumsPieces = random.sample(ST01_Q, 5)
+        ST01_NumsPieces = random.sample(ST01_list, 5)
 
         # AllPieces에 모든 선택지 배열로 저장
         # 연산자및 숫자선택지 순으로 저장
@@ -46,8 +114,6 @@ class game:
                 break
             elif (userPick1 or userPick2 or userPick3) == -1:
                 pass
-                '''
-
 
 
     def stage02(self):

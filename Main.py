@@ -1,5 +1,6 @@
 from User import userInforSet as UIM
 from UserData import UserData as UD
+from Game import game
 import os
 
 # UD, UIM instance 할당
@@ -16,18 +17,26 @@ else:
 
 # 게임 시작화면
 # 1: 유저생성, 2: 기존데이터 로드, 3: 기존데이터 관리
+loadedID = []
 while True:
-    gamemode = int(input("1. New Game\n2. Load Game\n3. User Manager\nSelect menu: "))
-    if gamemode == 1:
+    gamemode = input("1. New Game\n2. Load Game\n3. User Manager\nSelect menu: ")
+    if gamemode == '1':
         gameMenu.userCreation()
         continue
-    elif gamemode == 2:
-        gameMenu.userSelection()
-        break
-    elif gamemode ==3:
+    elif gamemode == '2':
+        loadedID = gameMenu.userSelection()
+        if loadedID == '-1':
+            continue
+        else:
+            break
+    elif gamemode == '3':
         gameMenu.userLogin(gamemode)
         continue
     else:
         continue
+
+
+# 로드된 유저 정보에 맞는 게임 시작
+gamestart = game(list(loadedID))
 
 print('게임 짜자')
