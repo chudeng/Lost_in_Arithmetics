@@ -1,37 +1,43 @@
-infix = '3+1-2*2/2*(3+1*2/2-1)*3-2+1'
+infix = '3+1-2*2/2*(3+1*2/2-1)*3-2+1' # result = -15
 '''
 3+1-2*2/2(3+1*2/2-1)*3-2+1
 3+1-((((2*2)/2)(3+((1*2)/2)-1))*3)-2+1
 31222*3122*/1+-/3*21+---+
 '''
 answer = list(infix)
-postfix = []
-stk = []
-
 
 def intopost(answer):
-    for i in range(len(answer)):
-        if answer[i].isdigit():
-            postfix.append(answer[i])
-        elif not answer[i].isdigit():
-            if answer[i] == '(':
-                stk.append(answer[i])
-            elif answer[i] == '*' or answer[i] == '/':
-                if len(stk) == 0:
-                    stk.append(answer[i])
-                elif stk[-1] == '+' or stk[-1] == '-':
-                    stk.append(answer[i])
-                elif stk[-1] == '*' or stk[-1] == '/':
-                    postfix.append(stk.pop(-1))
-                    stk.append(answer[i])
-            elif answer[i] == '+' or answer[i] == '-':
-                if len(stk) == 0:
-                    stk.append(answer[i])
-                elif stk[-1] == '+' or stk[-1] == '-':
-                    stk.append(answer[i])
+    postfix = []
+    stk = []
+    for i in answer:
+        if i.isdigit(): # 숫자면 postfix에 i 추가
+             postfix.append(i)
+        elif not i.isdigit():
+            if i == '(':
+                stk.append(i)   # '('면 stk에 i 추가
+            elif i == '*' or i == '/':
+                if len(stk) == 0:   # stk가 비어 있으면 stk에 i 추가
+                    stk.append(i)
+                elif stk[-1] == '+' or stk[-1] == '-':  # stk[-1]이 +||- 면 stk에 i 추가
+                    stk.append(i)
+                elif stk[-1] == '*' or stk[-1] == '/':  # stk[-1]이 *||/ 면, stk[-1]를 postfix로 이동 후 stk에 i 추가
+                    while stk[-1] == '+' or stk[-1] == '-' or stk[-1] == '(' or len(stk) == 0:
+                        postfix.append(stk.pop(-1))
+                        stk.append(i)
+            elif i == '+' or i == '-':
+                if len(stk) == 0:   # stk가 비어 있으면 stk에 i 추가
+                    stk.append(i)
+                elif stk[-1] == '*' or stk[-1] == '/':  # stk[-1]이 *||/ 면, stk[-1]를 postfix로 이동 후 stk에 i 추가
+                    while stk[-1] == '(' or len(stk) == 0:
+                        postfix.append(stk.pop(-1))
+                        stk.append(i)
+                elif stk[-1] == '+' or stk[-1] == '-':  # stk[-1]이 +||- 면, stk[-1]를 postfix로 이동 후 stk에 i 추가
+                    while stk[-1] == '(' or len(stk) == 0:
+                        postfix.append(stk.pop(-1))
+                        stk.append(i)
                 else:
-                    stk.append(answer[i])
-            elif answer[i] == ')':
+                    stk.append(i)
+            elif i == ')':
                 while stk:
                     if stk[-1] == '(':
                         stk.pop(-1)
@@ -41,7 +47,7 @@ def intopost(answer):
                         continue
     while stk:
         postfix.append(stk.pop(-1))
-    print(postfix)
+    #postfix_dummy = ['3', '1', '+', '2', '2', '*', '2', '/', '3', '1', '2', '*', '2', '/', '1', '-', '+', '*', '3', '*', '2', '-', '1', '+', '-']
     return postfix
 
 
@@ -50,20 +56,23 @@ def operating(postfix):
     result = []
     for i in postfix:
         if i.isdigit():
-            result.append(i)
+            result.append(int(i))
         else:
             if i == '+':
-                stk = result.pop(-1) + result.pop(-1)
+                sum = result.pop(-1) + result.pop(-1)
+                result.append(sum)
             elif i == '-':
-                stk = result.pop(-1) - result.pop(-1)
+                sub = result.pop(-1) - result.pop(-1)
+                result.append(sub)
             elif i == '*':
-                stk = result.pop(-1) * result.pop(-1)
-                print(stk)
+                mul = result.pop(-1) * result.pop(-1)
+                result.append(mul)
             elif i == '/':
-                stk = result.pop(-1) / result.pop(-1)
-    print(int(result))
+                dev = result.pop(-1) / result.pop(-1)
+                result.append(dev)
+    print('result', result, type(result))
 
-intopost(answer)
+postfix = intopost(answer)
 operating(postfix)
 
 

@@ -28,28 +28,28 @@ class game:
     def intopost(self, answer):
         postfix = []
         stk = []
-        for i in range(len(answer)):
-            if answer[i].isdigit():
-                postfix.append(answer[i])
-            elif not answer[i].isdigit():
-                if answer[i] == '(':
-                        stk.append(answer[i])
-                elif answer[i] == '*' or answer[i] == '/':
+        for i in answer:
+            if i.isdigit():
+                postfix.append(i)
+            elif not i.isdigit():
+                if i == '(':
+                        stk.append(i)
+                elif i == '*' or i == '/':
                     if len(stk) == 0:
-                        stk.append(answer[i])
+                        stk.append(i)
                     elif stk[-1] == '+' or stk[-1] == '-':
-                        stk.append(answer[i])
+                        stk.append(i)
                     elif stk[-1] == '*' or stk[-1] == '/':
                         postfix.append(stk.pop(-1))
-                        stk.append(answer[i])
-                elif answer[i] == '+' or answer[i] == '-':
+                        stk.append(i)
+                elif i == '+' or i == '-':
                     if len(stk) == 0:
-                        stk.append(answer[i])
+                        stk.append(i)
                     elif stk[-1] == '+' or stk[-1] == '-':
-                        stk.append(answer[i])
+                        stk.append(i)
                     else:
-                        stk.append(answer[i])
-                elif answer[i] == ')':
+                        stk.append(i)
+                elif i == ')':
                     while stk:
                         if stk[-1] == '(':
                             stk.pop(-1)
@@ -66,7 +66,7 @@ class game:
         stk = []
         for i in postfix:
             if i.isdigit():
-                stk.append(i)
+                stk.append(int(i))
             else:
                 if i == '+':
                     stk = stk.pop(-1) + stk.pop(-1)
