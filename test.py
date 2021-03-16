@@ -16,36 +16,28 @@ def intopost(answer):
                 stk.append(i)   # '('면 stk에 i 추가
             elif i == '*' or i == '/':
                 print('*// operated')
-                if len(stk) == 0 or stk[-1] == '+' or stk[-1] == '-' or stk[-1] == '(':   # stk가 비어 있거나 stk[-1]이 '+' || '-' || '(' 면 stk에 i 추가
-                    stk.append(i)
-                    print('*// => if operated')
-                    print(stk)
-                else:
-                    print('*// => if operated')
-                    while True:
-                        if not len(stk) == 0 or stk[-1] == '+' or stk[-1] == '-' or stk[-1] == '(':  # stk[-1]이 *||/ 면, stk[-1]를 postfix로 이동 후 stk에 i 추가
-                            postfix.append(stk.pop())
-                            continue
-                        else:
-                            break
-                    stk.append(i)
-                    print(stk)
+                while True:
+                    if stk[-1] == '*' or stk[-1] == '/':   # stk[-1]이 '*' || '/' stk[-1]을 postfix로 이동
+                        postfix.append(stk.pop())
+                        print('*// => if operated', postfix, stk)
+                        continue
+                    else:
+                        print('*// => else break', postfix, stk)
+                        break
+                stk.append(i)
+                print('*// end', postfix, stk)
             elif i == '+' or i == '-':
                 print('+/- operated')
-                if len(stk) == 0 or stk[-1] == '(':   # stk가 비어 있으면 stk에 i 추가
-                    print('+/- => if operated')
-                    stk.append(i)
-                    print(stk)
-                else:
-                    print('+/- => else operated')
-                    while True:
-                        if not len(stk) == 0 or stk[-1] == '(':
-                            postfix.append(stk.pop())
-                            continue
-                        else:
-                            break
-                    stk.append(i)
-                    print(stk)
+                while True:
+                    if len(stk) == 0 or stk[-1] == '(':   # stk가 비어있거나 stk[-1]이 '(' 이면 stk에 i 추가
+                        print('+/- => if operated break')
+                        break
+                    else:
+                        postfix.append(stk.pop())   # stk[-1]을 postfix로 이동
+                        print('+/- => else operated', postfix, stk)
+                        continue
+                stk.append(i)
+                print('+/- end', postfix, stk)
             elif i == ')':
                 while stk:
                     if stk[-1] == '(':
@@ -57,15 +49,15 @@ def intopost(answer):
     while stk:
         postfix.append(stk.pop(-1))
     print(postfix, len(postfix))
-    #postfix_demo_str = '31+22*2/312*2/+1-*3*-2-1+'
-    #postfix_demo = list(postfix_demo_str)
-    return postfix
+    test = '31+22-2*312/2*+1*/3-*2-1+'   #3+1-2*2/2*(3+1*2/2-1)*3-2+1
+    test_list = list(test)
+    return test_list
 
 
 # postfix를 받아 계산 후, 결과값은 반환
 def operating(postfix):
+    print(postfix)
     result = []
-    print('postfix of operating', postfix)
     for i in postfix:
         if i.isdigit():
             result.append(int(i))
