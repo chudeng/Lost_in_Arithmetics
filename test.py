@@ -1,4 +1,4 @@
-infix = '3+1-2*2/2*(3+1*2/2-1)*3-2+1' # result = -15
+infix = '3+1-2*2/2*(3+1*2/2-1)*3-2+1*(1+2)' # result = -15
 
 answer = list(infix)
 
@@ -49,9 +49,7 @@ def intopost(answer):
     while stk:
         postfix.append(stk.pop(-1))
     print(postfix, len(postfix))
-    test = '31+22-2*312/2*+1*/3-*2-1+'   #3+1-2*2/2*(3+1*2/2-1)*3-2+1
-    test_list = list(test)
-    return test_list
+    return postfix
 
 
 # postfix를 받아 계산 후, 결과값은 반환
@@ -64,20 +62,28 @@ def operating(postfix):
             print(f'digit {i} added')
         else:
             if i == '+':
-                print(f'sum {result[-1]} + {result[-2]} = {result[-1] + result[-2]} added')
-                sum = result.pop() + result.pop()
+                print(f'sum {result[-2]} + {result[-1]} = {result[-2] + result[-1]} added')
+                sum = result[-2] + result[-1]
+                result.pop()
+                result.pop()
                 result.append(sum)
             elif i == '-':
-                print(f'sub {result[-1]} - {result[-2]} = {result[-1] - result[-2]} added')
-                sub = result.pop() - result.pop()
+                print(f'sub {result[-2]} - {result[-1]} = {result[-2] - result[-1]} added')
+                sub = result[-2] - result[-1]
+                result.pop()
+                result.pop()
                 result.append(sub)
             elif i == '*':
-                print(f'mul {result[-1]} x {result[-2]} = {result[-1] * result[-2]} added')
-                mul = result.pop() * result.pop()
+                print(f'mul {result[-2]} x {result[-1]} = {result[-2] * result[-1]} added')
+                mul = result[-2] * result[-1]
+                result.pop()
+                result.pop()
                 result.append(mul)
             elif i == '/':
-                print(f'dev {result[-1]} / {result[-2]} = {result[-1] / result[-2]} added')
-                dev = result.pop() / result.pop()
+                print(f'dev {result[-2]} / {result[-1]} = {result[-2] / result[-1]} added')
+                dev = result[-2] / result[-1]
+                result.pop()
+                result.pop()
                 result.append(dev)
     print('result', result, type(result))
 

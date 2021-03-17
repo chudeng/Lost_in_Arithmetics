@@ -35,8 +35,8 @@ while True:
     else:
         continue
 
-
+print(loadedID, type(loadedID))
 # 로드된 유저 정보에 맞는 게임 시작
 gamestart = game(list(loadedID))
 
-print('게임 짜자')
+print(gamestart)
