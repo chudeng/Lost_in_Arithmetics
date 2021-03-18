@@ -1,12 +1,11 @@
 # Score calculator
 
-class score:
+class scoreCalc:
 
-    def __init__(self,  attempt, level):
-        self.attempt = attempt
-        self.level = level
-
+    def __init__(self, loadedID):
+        self._loadedID = loadedID
 
     # Score calculated with attempt times and levels
     def score(self):
+
 

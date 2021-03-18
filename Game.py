@@ -6,30 +6,29 @@ class game:
         self._operators = ['+', '-', '*', '/']
 
     def stage(self):
-        if self._loadedID[1][0] == 1:
+        if self._loadedID[1][0] == 0:
             self.stage01()
-        elif self._loadedID[1][0] == 2:
+        elif self._loadedID[1][0] == 1:
             self.stage02()
-        elif self._loadedID[1][0] == 3:
+        elif self._loadedID[1][0] == 2:
             self.stage03()
-        elif self._loadedID[1][0] == 4:
+        elif self._loadedID[1][0] == 3:
             self.stage04()
-        elif self._loadedID[1][0] == 5:
+        elif self._loadedID[1][0] == 4:
             self.stage05()
-        elif self._loadedID[1][0] == 6:
+        elif self._loadedID[1][0] == 5:
             self.stage06()
-        elif self._loadedID[1][0] == 7:
+        elif self._loadedID[1][0] == 6:
             self.stage07()
-        elif self._loadedID[1][0] == 8:
+        elif self._loadedID[1][0] == 7:
             self.stage08()
-        elif self._loadedID[1][0] == 9:
+        elif self._loadedID[1][0] == 8:
             self.stage09()
 
     # infix 를 postfix로 변환
     def intopost(self, answer):
         postfix = []
         stk = []
-        print(answer)
         for i in answer:
             if i.isdigit():  # 숫자면 postfix에 i 추가
                 postfix.append(i)
@@ -62,38 +61,37 @@ class game:
                             continue
         while stk:
             postfix.append(stk.pop(-1))
-        print(postfix, len(postfix))
         return postfix
 
     # postfix를 받아 계산 후, 결과값 int로 변환 후 반환
     def operating(self, postfix):
-        print(postfix)
         result = []
         for i in postfix:
             if i.isdigit():
-                result.append(int(i))
+                result.append(i)
             else:
                 if i == '+':
-                    sum = result[-2] + result[-1]
+                    sum = int(result[-2]) + int(result[-1])
                     result.pop()
                     result.pop()
                     result.append(sum)
+                    print('else', result)
                 elif i == '-':
-                    sub = result[-2] - result[-1]
+                    sub = int(result[-2]) - int(result[-1])
                     result.pop()
                     result.pop()
                     result.append(sub)
                 elif i == '*':
-                    mul = result[-2] * result[-1]
+                    mul = int(result[-2]) * int(result[-1])
                     result.pop()
                     result.pop()
                     result.append(mul)
                 elif i == '/':
-                    dev = result[-2] / result[-1]
+                    dev = int(result[-2]) / int(result[-1])
                     result.pop()
                     result.pop()
                     result.append(dev)
-            result = int(result[0])
+        result = result[0]
         return result
 
 
@@ -101,10 +99,9 @@ class game:
         # 문제(1~9 사이) 추출 및 출력
         ST01_list = []
         useranswer = 0
-        for i in (1, 10):
-            ST01_list.append(i+1)
+        for i in range(1, 10):
+            ST01_list.append(i)
         Question = random.choice(ST01_list)
-        print("Question: ", Question)
 
         # 숫자 선택지 추출
         ST01_NumsPieces = random.sample(ST01_list, 6)
@@ -116,16 +113,23 @@ class game:
         # 선택지 출력 및 답 입력
         # 선택지에서 3가지만 선택해서 식을 만들어야 함.
         while True:
+            print("Question: ", Question)
             print('Options:',ST01_AllPieces)
-            useranswer = input("Arithmetic with 3 given options combination(Quit: -1): ")
-            if len(useranswer) != 3:
+            useranswer = input("Make arithmetic with 3 given options combination(Quit: -1): ")
+            if useranswer == '-1':
+                return useranswer
+            elif len(useranswer) != 3:
                 print('Must use 3 options.')
                 continue
-            elif useranswer == -1:
-                break
             else:
-                useranswer = self.intopost(useranswer)
-                break
+                postfix = self.intopost(useranswer)
+                useranswer = self.operating(postfix)
+                if useranswer == Question:
+                    print('Correct!')
+                    print(self._loadedID, type(self._loadedID))
+                else:
+                    print('Try again')
+                    continue
         return useranswer
 
 
