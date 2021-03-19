@@ -1,6 +1,4 @@
 from UserData import UserData as UD
-from Game import game as G
-
 
 class userInforSet:
 

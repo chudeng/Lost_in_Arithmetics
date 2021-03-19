@@ -36,7 +36,6 @@ while True:
             # game 수행
             while True:
                 gamePlay = userGameSet.stage()
-                print(loadedID, gamePlay)
                 if gamePlay == '-1':
                     break
                 else:

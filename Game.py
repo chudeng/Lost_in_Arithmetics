@@ -1,8 +1,12 @@
 import random
 import time
+from UserData import UserData as UD
 from score import scoreCalc
 
 class game:
+
+    userData = UD()
+
     def __init__(self, loadedID):
         self._loadedID = loadedID
         self._operators = ['+', '-', '*', '/']
@@ -108,6 +112,8 @@ class game:
         useranswer = 0  # 입력받은 답을 저장 할 변수
         answerTime = 0  # 문제 푸는데 걸린 시간을 저장 할 변수
         tryTime = 1     # 문제 푸는 시도 횟수를 저장 할 변수
+        userDic = self.userData.userLoad()
+        print(userDic)
         # 문제(1~9 사이) 추출 및 출력
         for i in range(1, 10):
             ST01_list.append(i)
@@ -156,6 +162,8 @@ class game:
                     timeEnds = time.time()
                     answerTime = round(timeEnds - timeBegins, 2)
                     self._loadedID = scoreCalc.score(self, tryTime, answerTime)
+                    userDic[self._loadedID[0]] = self._loadedID[1]
+                    self.userData.userWrite(userDic)
                     return self._userAnswer
                 else:
                     print('Try again')
