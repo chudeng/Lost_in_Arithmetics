@@ -1,29 +1,34 @@
 import random
+import time
+from score import scoreCalc
 
 class game:
     def __init__(self, loadedID):
         self._loadedID = loadedID
         self._operators = ['+', '-', '*', '/']
+        self._userAnswer = ''
 
     def stage(self):
-        if self._loadedID[1][0] == 0:
+        if self._loadedID[1][0] == 1:
             self.stage01()
-        elif self._loadedID[1][0] == 1:
-            self.stage02()
         elif self._loadedID[1][0] == 2:
-            self.stage03()
+            self.stage02()
         elif self._loadedID[1][0] == 3:
-            self.stage04()
+            self.stage03()
         elif self._loadedID[1][0] == 4:
-            self.stage05()
+            self.stage04()
         elif self._loadedID[1][0] == 5:
-            self.stage06()
+            self.stage05()
         elif self._loadedID[1][0] == 6:
-            self.stage07()
+            self.stage06()
         elif self._loadedID[1][0] == 7:
-            self.stage08()
+            self.stage07()
         elif self._loadedID[1][0] == 8:
+            self.stage08()
+        elif self._loadedID[1][0] == 9:
             self.stage09()
+        return self._userAnswer
+
 
     # infix 를 postfix로 변환
     def intopost(self, answer):
@@ -37,12 +42,15 @@ class game:
                     stk.append(i)  # '('면 stk에 i 추가
                 elif i == '*' or i == '/':
                     while True:
-                        if stk[-1] == '*' or stk[-1] == '/':  # stk[-1]이 '*' || '/' stk[-1]을 postfix로 이동
+                        if len(stk) == 0:
+                            stk.append(i)
+                            break
+                        elif stk[-1] == '*' or stk[-1] == '/':  # stk[-1]이 '*' || '/' stk[-1]을 postfix로 이동
                             postfix.append(stk.pop())
                             continue
                         else:
+                            stk.append(i)
                             break
-                    stk.append(i)
                 elif i == '+' or i == '-':
                     while True:
                         if len(stk) == 0 or stk[-1] == '(':  # stk가 비어있거나 stk[-1]이 '(' 이면 stk에 i 추가
@@ -75,7 +83,6 @@ class game:
                     result.pop()
                     result.pop()
                     result.append(sum)
-                    print('else', result)
                 elif i == '-':
                     sub = int(result[-2]) - int(result[-1])
                     result.pop()
@@ -96,9 +103,12 @@ class game:
 
 
     def stage01(self):
+        print('======== Level 1 ========')
+        ST01_list = []  # stage01에서 사용될 숫자 리스트
+        useranswer = 0  # 입력받은 답을 저장 할 변수
+        answerTime = 0  # 문제 푸는데 걸린 시간을 저장 할 변수
+        tryTime = 1     # 문제 푸는 시도 횟수를 저장 할 변수
         # 문제(1~9 사이) 추출 및 출력
-        ST01_list = []
-        useranswer = 0
         for i in range(1, 10):
             ST01_list.append(i)
         Question = random.choice(ST01_list)
@@ -114,21 +124,42 @@ class game:
         # 선택지에서 3가지만 선택해서 식을 만들어야 함.
         while True:
             print("Question: ", Question)
-            print('Options:',ST01_AllPieces)
-            useranswer = input("Make arithmetic with 3 given options combination(Quit: -1): ")
-            if useranswer == '-1':
-                return useranswer
-            elif len(useranswer) != 3:
+            print('Options:', ST01_AllPieces)
+            timeBegins = time.time()
+            self._userAnswer = input("Make arithmetic with 3 given options combination(Quit: -1): ")
+            usedOptionCheck = 0 # 주어진 옵션만을 사용하여 식을 만들었는지 판단용 변수
+            # 답변에 주어진 옵션 외에 조건이 포함 되어 있으면 usedOptionCheck 에 1을 저장. 아니면 0을 저장. -1이 입력 되었으면 초기화면
+            for i in self._userAnswer:
+                if self._userAnswer == '-1':
+                    return self._userAnswer
+                elif not i in str(ST01_AllPieces):
+                    usedOptionCheck = 1
+                    break
+                else:
+                    usedOptionCheck = 0
+                    continue
+            # 옵션에 없는 조건 사용 되었으면 continue, 아니면 pass
+            if usedOptionCheck == 1:
+                print('Ungiven options used.')
+                continue
+            else:
+                pass
+            # 3개 옵션 선택이 지켜지지 않았으면 continue. 그 외에는 답변 계산하여 맞으면 score 함수 호출, 틀렸으면 continue
+            if len(self._userAnswer) != 3:
                 print('Must use 3 options.')
                 continue
             else:
-                postfix = self.intopost(useranswer)
-                useranswer = self.operating(postfix)
-                if useranswer == Question:
+                postfix = self.intopost(self._userAnswer)
+                self._userAnswer = self.operating(postfix)
+                if self._userAnswer == Question:
                     print('Correct!')
-                    print(self._loadedID, type(self._loadedID))
+                    timeEnds = time.time()
+                    answerTime = round(timeEnds - timeBegins, 2)
+                    self._loadedID = scoreCalc.score(self, tryTime, answerTime)
+                    return self._userAnswer
                 else:
                     print('Try again')
+                    tryTime += 1
                     continue
         return useranswer
 

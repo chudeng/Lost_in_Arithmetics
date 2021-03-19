@@ -30,18 +30,22 @@ while True:
             continue
         else:   # list type으로 선택 유저정보 저장
             loadedID = list(loadedID)
-            break
+            # 로드된 유저 정보를 game과 scoreClac class에 전달
+            gameScore = scoreCalc(loadedID)
+            userGameSet = game(loadedID)
+            # game 수행
+            while True:
+                gamePlay = userGameSet.stage()
+                print(loadedID, gamePlay)
+                if gamePlay == '-1':
+                    break
+                else:
+                    continue
+            continue
     elif gamemode == '3':   # 유저정보 관리
         gameMenu.userLogin(gamemode)
         continue
     else:   # 세가지 메뉴 외 선택시, 다시 초기 화면
         continue
 
-# 로드된 유저 정보를 game과 scoreClac class에 전달
-# game c
-gameScore = scoreCalc(loadedID)
-gamePlay = game(loadedID)
-gameScore = scoreCalc(loadedID)
-print('gamePlay', gamePlay)
-gameResult = gamePlay.stage()
-print('gameResult', gameResult)
+

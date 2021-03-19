@@ -50,7 +50,7 @@ class userInforSet:
                     while True:
                         confirmation = input(f"{inputID} confirm?(y/n)")
                         if confirmation.lower() == "y":
-                            userDic.setdefault(inputID, [0,0])
+                            userDic.setdefault(inputID, [1,0])
                             self.userData.userWrite(userDic)
                             break
                         elif confirmation == "n" or "N":
