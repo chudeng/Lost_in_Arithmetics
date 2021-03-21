@@ -173,45 +173,105 @@ class game:
 
 
     def stage02(self):
-        ST02_Q = random.randint(10, 99)
-        print(ST02_Q)
+        print('======== Level 2 ========')
+        ST02_list = []  # stage01에서 사용될 숫자 리스트
+        useranswer = 0  # 입력받은 답을 저장 할 변수
+        answerTime = 0  # 문제 푸는데 걸린 시간을 저장 할 변수
+        tryTime = 1  # 문제 푸는 시도 횟수를 저장 할 변수
+        userDic = self.userData.userLoad()
+        print(userDic)
+        # 문제(1~9 사이) 추출 및 출력
+        for i in range(1, 10):
+            ST02_list.append(i)
+        Question = random.choice(ST02_list)
+
+        # 숫자 선택지 추출
+        ST02_NumsPieces = random.sample(ST02_list, 6)
+
+        # AllPieces에 모든 선택지 배열로 저장
+        # 연산자및 숫자선택지 순으로 저장
+        ST02_AllPieces = ST02_NumsPieces + self._operators
+
+        # 선택지 출력 및 답 입력
+        # 선택지에서 3가지만 선택해서 식을 만들어야 함.
+        while True:
+            print("Question: ", Question)
+            print('Options:', ST02_AllPieces)
+            timeBegins = time.time()
+            self._userAnswer = input("Make arithmetic with 5 given options combination(Quit: -1): ")
+            usedOptionCheck = 0  # 주어진 옵션만을 사용하여 식을 만들었는지 판단용 변수
+            # 답변에 주어진 옵션 외에 조건이 포함 되어 있으면 usedOptionCheck 에 1을 저장. 아니면 0을 저장. -1이 입력 되었으면 초기화면
+            for i in self._userAnswer:
+                if self._userAnswer == '-1':
+                    return self._userAnswer
+                elif not i in str(ST02_AllPieces):
+                    usedOptionCheck = 1
+                    break
+                else:
+                    usedOptionCheck = 0
+                    continue
+            # 옵션에 없는 조건 사용 되었으면 continue, 아니면 pass
+            if usedOptionCheck == 1:
+                print('Ungiven options used.')
+                continue
+            else:
+                pass
+            # 3개 옵션 선택이 지켜지지 않았으면 continue. 그 외에는 답변 계산하여 맞으면 score 함수 호출, 틀렸으면 continue
+            if len(self._userAnswer) != 5:
+                print('Must use 3 options.')
+                continue
+            else:
+                postfix = self.intopost(self._userAnswer)
+                self._userAnswer = self.operating(postfix)
+                if self._userAnswer == Question:
+                    print('Correct!')
+                    timeEnds = time.time()
+                    answerTime = round(timeEnds - timeBegins, 2)
+                    self._loadedID = scoreCalc.score(self, tryTime, answerTime)
+                    userDic[self._loadedID[0]] = self._loadedID[1]
+                    self.userData.userWrite(userDic)
+                    return self._userAnswer
+                else:
+                    print('Try again')
+                    tryTime += 1
+                    continue
+        return useranswer
 
 
     def stage03(self):
-        ST03_Q = random.randint(100, 999)
-        print(ST03_Q)
-
+        print('3단계까지 왔음')
+        pass
 
     def stage04(self):
-        ST04_Q = random.randint(1000, 9999)
-        print(ST04_Q)
+        print('4단계까지 왔음')
+        pass
 
 
     def stage05(self):
-        ST05_Q = random.randint(1000, 9999)
-        print(ST05_Q)
+        print('5단계까지 왔음')
+        pass
 
 
     def stage06(self):
-        ST06_Q = random.randint(1000, 9999)
-        print(ST06_Q)
+        print('6단계까지 왔음')
+        pass
 
 
     def stage07(self):
-        ST07_Q = random.randint(1000, 9999)
-        print(ST07_Q)
+        print('7단계까지 왔음')
+        pass
 
 
     def stage08(self):
-        ST08_Q = random.randint(1000, 9999)
-        print(ST08_Q)
+        print('8단계까지 왔음')
+        pass
 
 
     def stage09(self):
-        ST09_Q = random.randint(1000, 9999)
-        print(ST09_Q)
+        print('9단계까지 왔음')
+        pass
 
 
     def stage10(self):
-        ST10_Q = random.randint(1000, 9999)
-        print(ST10_Q)
+        print('10단계까지 왔음')
+        pass

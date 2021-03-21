@@ -42,7 +42,7 @@ while True:
                     continue
             continue
     elif gamemode == '3':   # 유저정보 관리
-        gameMenu.userLogin(gamemode)
+        gameMenu.userListManage()
         continue
     else:   # 세가지 메뉴 외 선택시, 다시 초기 화면
         continue
